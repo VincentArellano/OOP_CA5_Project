@@ -85,7 +85,7 @@ public class App
 
     private void displayArrayList(List list){
         for(Object arr : list){
-            System.out.println(list);
+            System.out.println(arr);
         }
     }
 
@@ -95,7 +95,7 @@ public class App
         for (Player key : keySet) {
             Jersey jersey = (Jersey) list.get(key);
             System.out.println("Key: " + key + ", Size:"
-                    + jersey.getSize() + ", Brand:" + jersey.getBrand() + "" + jersey.getColour());
+                    + jersey.getSize() + ", Brand:" + jersey.getBrand() + ", Colour:" + jersey.getColour());
         }
     }
 
