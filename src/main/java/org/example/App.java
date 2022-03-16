@@ -83,11 +83,13 @@ public class App
     }
 
     private void displayArrayList(List<Player> list){
-        System.out.println("-------------------------------------------------------");
+        System.out.println("-------------------------------------------");
+        System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
+        System.out.println("-------------------------------------------");
         for(Player arr : list){
-            System.out.println("--\t"+arr.getName()+"\t\t\t\t"+ arr.getAge()+"\t\t\t\t"+arr.getHeight()+"\t\t\t\t--");
+            System.out.printf("%-15s%-10s%-10s\n",arr.getName(), arr.getAge(), arr.getHeight());
         }
-        System.out.println("-------------------------------------------------------");
+        System.out.println("-------------------------------------------");
     }
 
     private void displayHashMap(Map<String, ArrayList<Player>> playerTeams){
@@ -118,12 +120,18 @@ public class App
 
 
         Scanner kb = new Scanner(System.in);
-        System.out.println("Enter the team name");
+        System.out.println("Enter the team name (Atlanta Hawks, Chicago Bulls, Washington Wizards, Toronto Raptors, New Orleans Pelicans)");
         String key = kb.nextLine();
         if(playerTeams.containsKey(key)){
+            System.out.println("-------------------------------------------");
+            System.out.println("Players in the team " + key);
+            System.out.println("-------------------------------------------");
+            System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
+            System.out.println("-------------------------------------------");
             for(Player p : player){
-                System.out.println(p.getName());
+                System.out.printf("%-15s%-10s%-10s\n",p.getName(), p.getAge(), p.getHeight());
             }
+            System.out.println("-------------------------------------------");
         }
         else{
             System.out.println("There are no players on " + key);
@@ -133,14 +141,14 @@ public class App
     private void displayTreeMap(Map list){
         Set<Player> keySet = list.keySet();
 
-        System.out.println("-------------------------------------------------------");
-        System.out.println("Name\t\tAge\t\tHeight\t\tSize\t\tBrand\t\tColour");
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("%-15s%-10s%-10s%-10s%-20s%-20s\n", "Name", "Age", "Height", "Size", "Brand", "Colour");
+        System.out.println("-------------------------------------------------------------------------");
         for (Player key : keySet) {
             Jersey jersey = (Jersey) list.get(key);
-            System.out.println(key.getName()+"\t\t"+ key.getAge() + "\t\t" + key.getHeight() + "\t\t"
-                    + jersey.getSize() + "\t\t" + jersey.getBrand() + "\t\t" + jersey.getColour());
+            System.out.printf("%-15s%-10s%-10s%-10s%-20s%-20s\n", key.getName(), key.getAge(), key.getHeight(), jersey.getSize(),jersey.getBrand(),jersey.getColour());
         }
-        System.out.println("-------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------");
     }
 
     private void initialiseArrayList(List<Player> list){
