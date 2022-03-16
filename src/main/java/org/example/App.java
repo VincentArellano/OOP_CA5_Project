@@ -19,14 +19,13 @@ public class App
         List<Player> namesList = new ArrayList<>();
         initialiseArrayList(namesList);
 
-        Map<Player, Jersey> playerJerseys = new HashMap<>();
-        initialiseHashMap(playerJerseys);
+        Map<String, ArrayList<Player>> playerTeams = new HashMap<>();
 
-        Map<Team, Stadium> teamStadiums = new TreeMap<>(new ComparatorTeamStadium());
+        Map<Player, Jersey> teamStadiums = new TreeMap<>(new ComparatorPlayerJersey());
         initialiseTreeMap(teamStadiums);
 
         try{
-            displayMainMenu(namesList, playerJerseys, teamStadiums);
+            displayMainMenu(namesList, playerTeams, teamStadiums);
         }   catch(IOException e){
             e.printStackTrace();
         }
@@ -83,33 +82,68 @@ public class App
 
     }
 
-    private void displayArrayList(List list){
-        for(Object arr : list){
-            System.out.println(list);
+    private void displayArrayList(List<Player> list){
+        System.out.println("-------------------------------------------------------");
+        for(Player arr : list){
+            System.out.println("--\t"+arr.getName()+"\t\t\t\t"+ arr.getAge()+"\t\t\t\t"+arr.getHeight()+"\t\t\t\t--");
         }
+        System.out.println("-------------------------------------------------------");
     }
 
-    private void displayHashMap(Map list){
-        Set<Player> keySet = list.keySet();
+    private void displayHashMap(Map<String, ArrayList<Player>> playerTeams){
+        ArrayList<Player> player = new ArrayList<>();
+        player.add(new Player("Vincent", 18, 1.9));
+        player.add(new Player("Paul", 21, 2.1));
+        player.add(new Player("Luke", 21, 1.6));
+        playerTeams.put("Atlanta Hawks", player);
 
-        for (Player key : keySet) {
-            Jersey jersey = (Jersey) list.get(key);
-            System.out.println("Key: " + key + ", Size:"
-                    + jersey.getSize() + ", Brand:" + jersey.getBrand() + "" + jersey.getColour());
+        player = new ArrayList<>();
+        player.add(new Player("John", 23, 2.2));
+        player.add(new Player("Christian", 25, 1.7));
+        playerTeams.put("Chicago Bulls", player);
+
+        player = new ArrayList<>();
+        player.add(new Player("Andre", 24, 1.68));
+        player.add(new Player("Larry", 22, 1.9));
+        playerTeams.put("Washington Wizards", player);
+
+        player = new ArrayList<>();
+        player.add(new Player("James", 27, 1.75));
+        playerTeams.put("Toronto Raptors", player);
+
+        player = new ArrayList<>();
+        player.add(new Player("Stephan", 30, 1.88));
+        player.add(new Player("Jack", 19, 1.92));
+        playerTeams.put("New Orleans Pelicans", player);
+
+
+        Scanner kb = new Scanner(System.in);
+        System.out.println("Enter the team name");
+        String key = kb.nextLine();
+        if(playerTeams.containsKey(key)){
+            for(Player p : player){
+                System.out.println(p.getName());
+            }
+        }
+        else{
+            System.out.println("There are no players on " + key);
         }
     }
 
     private void displayTreeMap(Map list){
-        Set<Team> keySet = list.keySet();
+        Set<Player> keySet = list.keySet();
 
-        for (Team key : keySet) {
-            Stadium stadium = (Stadium) list.get(key);
-            System.out.println("Key: " + key + " Location: "
-                    + stadium.getLocation() + ", Max No. of Audience " + stadium.getMaxNumOfAudience());
+        System.out.println("-------------------------------------------------------");
+        System.out.println("Name\t\tAge\t\tHeight\t\tSize\t\tBrand\t\tColour");
+        for (Player key : keySet) {
+            Jersey jersey = (Jersey) list.get(key);
+            System.out.println(key.getName()+"\t\t"+ key.getAge() + "\t\t" + key.getHeight() + "\t\t"
+                    + jersey.getSize() + "\t\t" + jersey.getBrand() + "\t\t" + jersey.getColour());
         }
+        System.out.println("-------------------------------------------------------");
     }
 
-    private void initialiseArrayList(List list){
+    private void initialiseArrayList(List<Player> list){
         list.add(new Player("Vincent", 18, 1.9));
         list.add(new Player("Paul", 21, 2.1));
         list.add(new Player("John", 23, 2.2));
@@ -122,29 +156,16 @@ public class App
         list.add(new Player("Jack", 19, 1.92));
     }
 
-    private void initialiseHashMap(Map list){
+    private void initialiseTreeMap(Map<Player, Jersey> list){
         list.put(new Player("Vincent", 18, 1.9), new Jersey("XL", "Adidas", "black"));
-        list.put(new Player("Mary", 21, 2.1), new Jersey("XXL", "Nike", "Red"));
+        list.put(new Player("Paul", 21, 2.1), new Jersey("XXL", "Nike", "Red"));
         list.put(new Player("John", 23, 2.2), new Jersey("XXL", "Reebok", "Blue"));
         list.put(new Player("Luke", 21, 1.6), new Jersey("M", "Jordan", "Orange"));
         list.put(new Player("Christian", 25, 1.7), new Jersey("L", "Puma", "Yellow"));
-        list.put(new Player("Andrea", 22, 1.9), new Jersey("L", "Under Armour", "White"));
-        list.put(new Player("Vincent", 18, 1.9), new Jersey("L", "Nike", "Green"));
+        list.put(new Player("Andre", 22, 1.9), new Jersey("L", "Under Armour", "White"));
+        list.put(new Player("Larry", 18, 1.9), new Jersey("L", "Nike", "Green"));
         list.put(new Player("James", 27, 1.75), new Jersey("M", "Jordan", "Brown"));
         list.put(new Player("Stephan", 30, 1.88), new Jersey("XXL", "Adidas", "Purple"));
         list.put(new Player("Jack", 19, 1.92), new Jersey("L", "Puma", "Grey"));
-    }
-
-    private void initialiseTreeMap(Map list){
-        list.put(new Team("Washington Wizards", "Wizard"), new Stadium(31.35,20.36, 10000));
-        list.put(new Team("Chicago Bulls", "Bull"), new Stadium(105.67, 93.65, 15000));
-        list.put(new Team("Toronto Raptors", "Raptor"), new Stadium(51.15, 62.26, 20000));
-        list.put(new Team("Dallas Mavericks", "Maverick"), new Stadium(53.3456,-6.3421,19000));
-        list.put(new Team("Milwaukee Bucks", "Buck"), new Stadium(53.2543,-6.4444, 16000));
-        list.put(new Team("Memphis Grizzlies", "Grizzly Bear"), new Stadium(54.021,-7.444, 16000));
-        list.put(new Team("Charlotte Hornets", "Hornet"), new Stadium(-53.7654,6.6235, 20000));
-        list.put(new Team("Minnesota Timberwolves", "Timber Wolf"), new Stadium(60.24, 10.21, 17000));
-        list.put(new Team("Atlanta Hawks", "Hawk"), new Stadium(80.15, -50.18, 16500));
-        list.put(new Team("New Orleans Pelicans", "Pelican"), new Stadium(90.61, -20.50, 19500));
     }
 }
