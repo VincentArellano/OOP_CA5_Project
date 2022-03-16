@@ -22,28 +22,35 @@ public class App
         Map<String, ArrayList<Player>> playerTeams = new HashMap<>();
 
         Map<Player, Jersey> teamStadiums = new TreeMap<>(new ComparatorPlayerJersey());
-        initialiseTreeMap(teamStadiums);
+
+        Queue<Player> playerAgeQueue = new PriorityQueue<>(new PlayerAgeComparator());
+
+        Queue<Player> playerNameAgeQueue = new PriorityQueue<>(new PlayerNameAgeComparator());
 
         try{
-            displayMainMenu(namesList, playerTeams, teamStadiums);
+            displayMainMenu(namesList, playerTeams, teamStadiums, playerAgeQueue, playerNameAgeQueue);
         }   catch(IOException e){
             e.printStackTrace();
         }
     }
 
-    private void displayMainMenu(List arraylist, Map hashmap, Map treemap) throws IOException {
+    private void displayMainMenu(List arraylist, Map hashmap, Map treemap, Queue priorityqueue, Queue priorityqueuetwofield) throws IOException {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. ArrayList\n"
                 + "2. HashMap\n"
                 + "3. TreeMap\n"
-                + "4. Exit\n"
-                + "Enter Option [1,2,3,4]";
+                + "4. PriorityQueue\n"
+                + "5. PriorityQueue Two-Field Comparison\n"
+                + "6. Exit\n"
+                + "Enter Option [1,2,3,4,5,6]";
 
         final int ARRAYLIST = 1;
         final int HASHMAP = 2;
         final int TREEMAP = 3;
-        final int EXIT = 4;
+        final int PRIORITYQUEUE = 4;
+        final int PRIORITYQUEUETWOFIELD = 5;
+        final int EXIT = 6;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -64,6 +71,14 @@ public class App
                     case TREEMAP:
                         System.out.println("TreeMap option chosen");
                         displayTreeMap(treemap);
+                        break;
+                    case PRIORITYQUEUE:
+                        System.out.println("PriorityQueue option chosen");
+                        displayPriorityQueue(priorityqueue);
+                        break;
+                    case PRIORITYQUEUETWOFIELD:
+                        System.out.println("PriorityQueue Two-Field Comparison option chosen");
+                        displayPriorityQueueTwoField(priorityqueuetwofield, arraylist);
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -138,27 +153,68 @@ public class App
         }
     }
 
-    private void displayTreeMap(Map list){
+    private void displayTreeMap(Map<Player, Jersey> list){
         Set<Player> keySet = list.keySet();
 
         System.out.println("-------------------------------------------------------------------------");
         System.out.printf("%-15s%-10s%-10s%-10s%-20s%-20s\n", "Name", "Age", "Height", "Size", "Brand", "Colour");
         System.out.println("-------------------------------------------------------------------------");
         for (Player key : keySet) {
-            Jersey jersey = (Jersey) list.get(key);
+            Jersey jersey = list.get(key);
             System.out.printf("%-15s%-10s%-10s%-10s%-20s%-20s\n", key.getName(), key.getAge(), key.getHeight(), jersey.getSize(),jersey.getBrand(),jersey.getColour());
         }
         System.out.println("-------------------------------------------------------------------------");
+    }
+
+    private void displayPriorityQueue(Queue<Player> list){
+        list.add(new Player("Stephan", 30, 1.88));
+        list.add(new Player("Christian", 25, 1.7));
+
+
+        list.add(new Player("John", 23, 2.2));
+        list.add(new Player("Paul", 21, 2.1));
+
+        list.remove();
+        System.out.println("-------------------------------------------");
+        System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
+        System.out.println("-------------------------------------------");
+        System.out.printf("%-15s%-10s%-10s\n",list.peek().getName(), list.peek().getAge(), list.peek().getHeight());
+        System.out.println("\n");
+
+        list.add(new Player("Vincent", 18, 1.9));
+        System.out.println("-------------------------------------------");
+        System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
+        System.out.println("-------------------------------------------");
+        while(!list.isEmpty()){
+
+            System.out.printf("%-15s%-10s%-10s\n",list.peek().getName(), list.peek().getAge(), list.peek().getHeight());
+            list.remove();
+        }
+    }
+
+    private void displayPriorityQueueTwoField(Queue<Player> queueList, List<Player> arrayList){
+        for(int i=0;i<arrayList.size();i++){
+            queueList.add(arrayList.get(i));
+        }
+
+        System.out.println("-------------------------------------------");
+        System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
+        System.out.println("-------------------------------------------");
+        while(!queueList.isEmpty()){
+
+            System.out.printf("%-15s%-10s%-10s\n",queueList.peek().getName(), queueList.peek().getAge(), queueList.peek().getHeight());
+            queueList.remove();
+        }
     }
 
     private void initialiseArrayList(List<Player> list){
         list.add(new Player("Vincent", 18, 1.9));
         list.add(new Player("Paul", 21, 2.1));
         list.add(new Player("John", 23, 2.2));
-        list.add(new Player("Luke", 21, 1.6));
+        list.add(new Player("Larry", 25, 1.6));
         list.add(new Player("Christian", 25, 1.7));
         list.add(new Player("Andre", 24, 1.68));
-        list.add(new Player("Larry", 22, 1.9));
+        list.add(new Player("Larry", 21, 1.9));
         list.add(new Player("James", 27, 1.75));
         list.add(new Player("Stephan", 30, 1.88));
         list.add(new Player("Jack", 19, 1.92));
