@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.DTOs.Player;
+
 import java.util.Comparator;
 
 public class PlayerAgeComparator implements Comparator<Player> {

@@ -1,5 +1,5 @@
 package org.example;
-import org.example.Team;
+import org.example.DTOs.Player;
 
 import java.util.Comparator;
 

@@ -1,8 +1,9 @@
-package org.example;
+package org.example.DTOs;
 
 import java.util.Objects;
 
 public class Player {
+    private int id;
     private String name;
     private int age;
     private double height;
@@ -11,10 +12,27 @@ public class Player {
         this.name = name;
     }
 
+    public Player(int id, String name, int age, double height) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.height = height;
+    }
+
     public Player(String name, int age, double height) {
         this.name = name;
         this.age = age;
         this.height = height;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getName() {
@@ -44,7 +62,8 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "name='" + name + '\'' +
+                "id" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", height=" + height +
                 '}';

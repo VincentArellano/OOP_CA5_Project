@@ -1,5 +1,10 @@
 package org.example;
 
+import org.example.DAOs.MySqlPlayerDao;
+import org.example.DAOs.PlayerDaoInterface;
+import org.example.DTOs.Player;
+import org.example.Exceptions.DaoException;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -21,20 +26,23 @@ public class App
 
         Map<String, ArrayList<Player>> playerTeams = new HashMap<>();
 
-        Map<Player, Jersey> teamStadiums = new TreeMap<>(new ComparatorPlayerJersey());
+        Map<Player, Jersey> playerJersey = new TreeMap<>(new ComparatorPlayerJersey());
+        initialiseTreeMap(playerJersey);
 
         Queue<Player> playerAgeQueue = new PriorityQueue<>(new PlayerAgeComparator());
 
         Queue<Player> playerNameAgeQueue = new PriorityQueue<>(new PlayerNameAgeComparator());
 
+        PlayerDaoInterface IPlayerDao = new MySqlPlayerDao();
+
         try{
-            displayMainMenu(namesList, playerTeams, teamStadiums, playerAgeQueue, playerNameAgeQueue);
+            displayMainMenu(namesList, playerTeams, playerJersey, playerAgeQueue, playerNameAgeQueue, IPlayerDao);
         }   catch(IOException e){
             e.printStackTrace();
         }
     }
 
-    private void displayMainMenu(List arraylist, Map hashmap, Map treemap, Queue priorityqueue, Queue priorityqueuetwofield) throws IOException {
+    private void displayMainMenu(List arraylist, Map hashmap, Map treemap, Queue priorityqueue, Queue priorityqueuetwofield, PlayerDaoInterface IPlayerDao) throws IOException {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. ArrayList\n"
@@ -42,15 +50,21 @@ public class App
                 + "3. TreeMap\n"
                 + "4. PriorityQueue\n"
                 + "5. PriorityQueue Two-Field Comparison\n"
-                + "6. Exit\n"
-                + "Enter Option [1,2,3,4,5,6]";
+                + "6. Display All Elements"
+                + "7. Find All Players"
+                + "8. Find Player by ID"
+                + "9. Exit\n"
+                + "Enter Option [1,2,3,4,5,6,7,8,9]";
 
         final int ARRAYLIST = 1;
         final int HASHMAP = 2;
         final int TREEMAP = 3;
         final int PRIORITYQUEUE = 4;
         final int PRIORITYQUEUETWOFIELD = 5;
-        final int EXIT = 6;
+        final int DISPLAYALLELEMENTS = 6;
+        final int FINDALLPLAYERS = 7;
+        final int FINDPLAYERBYID = 8;
+        final int EXIT = 9;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -80,6 +94,15 @@ public class App
                         System.out.println("PriorityQueue Two-Field Comparison option chosen");
                         displayPriorityQueueTwoField(priorityqueuetwofield, arraylist);
                         break;
+                    case DISPLAYALLELEMENTS:
+                        System.out.println("Display All Elements option chosen");
+                        display();
+                    case FINDALLPLAYERS:
+                        System.out.println("Find All Players option chosen");
+                        findAllPlayers(IPlayerDao);
+                    case FINDPLAYERBYID:
+                        System.out.println("Find Player by ID option chosen");
+                        findPlayerByID(IPlayerDao);
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
                         break;
@@ -231,5 +254,55 @@ public class App
         list.put(new Player("James", 27, 1.75), new Jersey("M", "Jordan", "Brown"));
         list.put(new Player("Stephan", 30, 1.88), new Jersey("XXL", "Adidas", "Purple"));
         list.put(new Player("Jack", 19, 1.92), new Jersey("L", "Puma", "Grey"));
+    }
+
+    private void display(){
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("%-15s%-10s%-10s%-10s%-20s%-20s\n", "Name", "Age", "Height", "Size", "Brand", "Colour");
+        System.out.println("-------------------------------------------------------------------------");
+
+    }
+
+    private void findAllPlayers(PlayerDaoInterface IPlayerDao){
+        try
+        {
+        List<Player> players = IPlayerDao.findAllPlayers();
+
+        if( players.isEmpty() )
+            System.out.println("There are no Players");
+        else {
+            for (Player player : players)
+                System.out.println("User: " + player.toString());
+        }
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void findPlayerByID(PlayerDaoInterface IPlayerDao){
+        try
+        {
+            Scanner kb = new Scanner(System.in);
+            System.out.println("Enter ID");
+            int id = kb.nextInt();
+            Player player = IPlayerDao.findPlayerByID(id);
+
+            if( player != null )
+                System.out.println("Player found: " + player);
+            else
+                System.out.println("ID not found");
+
+            player = IPlayerDao.findPlayerByID(id);
+            if(player != null)
+                System.out.println("ID: " + id);
+            else
+                System.out.println("ID: " + id +" is not valid.");
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
     }
 }
