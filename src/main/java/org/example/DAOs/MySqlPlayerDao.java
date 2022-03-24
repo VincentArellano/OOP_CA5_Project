@@ -31,7 +31,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             resultSet = ps.executeQuery();
             while (resultSet.next())
             {
-                int playerId = resultSet.getInt("PLAYER_ID");
+                int playerId = resultSet.getInt("ID");
                 String name = resultSet.getString("NAME");
                 int age = resultSet.getInt("AGE");
                 double height = resultSet.getDouble("HEIGHT");
@@ -83,7 +83,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
             {
-                int playerId = resultSet.getInt("PLAYER_ID");
+                int playerId = resultSet.getInt("ID");
                 String name = resultSet.getString("NAME");
                 int age = resultSet.getInt("AGE");
                 double height = resultSet.getDouble("HEIGHT");

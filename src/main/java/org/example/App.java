@@ -50,9 +50,9 @@ public class App
                 + "3. TreeMap\n"
                 + "4. PriorityQueue\n"
                 + "5. PriorityQueue Two-Field Comparison\n"
-                + "6. Display All Elements"
-                + "7. Find All Players"
-                + "8. Find Player by ID"
+                + "6. Display All Elements\n"
+                + "7. Find All Players\n"
+                + "8. Find Player by ID\n"
                 + "9. Exit\n"
                 + "Enter Option [1,2,3,4,5,6,7,8,9]";
 
@@ -97,12 +97,15 @@ public class App
                     case DISPLAYALLELEMENTS:
                         System.out.println("Display All Elements option chosen");
                         display();
+                        break;
                     case FINDALLPLAYERS:
                         System.out.println("Find All Players option chosen");
                         findAllPlayers(IPlayerDao);
+                        break;
                     case FINDPLAYERBYID:
                         System.out.println("Find Player by ID option chosen");
                         findPlayerByID(IPlayerDao);
+                        break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
                         break;
@@ -213,6 +216,7 @@ public class App
             System.out.printf("%-15s%-10s%-10s\n",list.peek().getName(), list.peek().getAge(), list.peek().getHeight());
             list.remove();
         }
+        System.out.println("-------------------------------------------");
     }
 
     private void displayPriorityQueueTwoField(Queue<Player> queueList, List<Player> arrayList){
@@ -228,6 +232,7 @@ public class App
             System.out.printf("%-15s%-10s%-10s\n",queueList.peek().getName(), queueList.peek().getAge(), queueList.peek().getHeight());
             queueList.remove();
         }
+        System.out.println("-------------------------------------------");
     }
 
     private void initialiseArrayList(List<Player> list){
@@ -271,8 +276,13 @@ public class App
         if( players.isEmpty() )
             System.out.println("There are no Players");
         else {
-            for (Player player : players)
-                System.out.println("User: " + player.toString());
+            System.out.println("-------------------------------------------");
+            System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
+            System.out.println("-------------------------------------------");
+            for (Player player : players) {
+                System.out.printf("%-15s%-10s%-10s\n", player.getName(), player.getAge(), player.getHeight());
+            }
+            System.out.println("-------------------------------------------");
         }
         }
         catch( DaoException e )
@@ -289,16 +299,15 @@ public class App
             int id = kb.nextInt();
             Player player = IPlayerDao.findPlayerByID(id);
 
-            if( player != null )
-                System.out.println("Player found: " + player);
+            if( player != null ) {
+                System.out.println("-------------------------------------------");
+                System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
+                System.out.println("-------------------------------------------");
+                System.out.printf("%-15s%-10s%-10s\n",player.getName(), player.getAge(), player.getHeight());
+                System.out.println("-------------------------------------------");
+            }
             else
                 System.out.println("ID not found");
-
-            player = IPlayerDao.findPlayerByID(id);
-            if(player != null)
-                System.out.println("ID: " + id);
-            else
-                System.out.println("ID: " + id +" is not valid.");
         }
         catch( DaoException e )
         {
