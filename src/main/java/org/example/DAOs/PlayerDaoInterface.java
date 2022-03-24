@@ -11,4 +11,8 @@ public interface PlayerDaoInterface
 
     public Player findPlayerByID(int id) throws DaoException;
 
+    public void deletePlayerByID(int id) throws DaoException;
+
+    public Player insertPlayer(String name, int age, double height) throws DaoException;
+
 }

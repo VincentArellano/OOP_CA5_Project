@@ -2,6 +2,7 @@ package org.example.DAOs;
 
 import org.example.DTOs.Player;
 import org.example.Exceptions.DaoException;
+import org.example.IdGenerator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
+    private IdGenerator idGenerator = IdGenerator.getInstance("next-id-store.txt");
     @Override
     public List<Player> findAllPlayers() throws DaoException
     {
@@ -92,7 +94,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             }
         } catch (SQLException e)
         {
-            throw new DaoException("findUserByID() " + e.getMessage());
+            throw new DaoException("findPlayerByID() " + e.getMessage());
         } finally
         {
             try
@@ -111,7 +113,96 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("findUserByID() " + e.getMessage());
+                throw new DaoException("findPlayerByID() " + e.getMessage());
+            }
+        }
+        return player;     // reference to User object, or null value
+    }
+
+    @Override
+    public void deletePlayerByID(int id) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "delete from Player where id = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e)
+        {
+            throw new DaoException("deletePlayerByID() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (preparedStatement != null)
+                {
+                    preparedStatement.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("deletePlayerByID() " + e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public Player insertPlayer(String name, int age, double height) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Player player = null;
+        int id = idGenerator.getNextId();
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "insert into basketball_oop_CA4.Player values (?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, name);
+            preparedStatement.setInt(3, age);
+            preparedStatement.setDouble(4, height);
+            preparedStatement.executeUpdate();
+
+            player = new Player(id,name, age, height);
+        } catch (SQLException e)
+        {
+            throw new DaoException("insertPlayer() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (preparedStatement != null)
+                {
+                    preparedStatement.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("insertPlayer() " + e.getMessage());
             }
         }
         return player;     // reference to User object, or null value

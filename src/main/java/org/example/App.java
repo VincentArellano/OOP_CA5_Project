@@ -53,8 +53,10 @@ public class App
                 + "6. Display All Elements\n"
                 + "7. Find All Players\n"
                 + "8. Find Player by ID\n"
-                + "9. Exit\n"
-                + "Enter Option [1,2,3,4,5,6,7,8,9]";
+                + "9. Delete Player by ID\n"
+                + "10. Insert Player\n"
+                + "14. Exit\n"
+                + "Enter Option [1,2,3,4,5,6,7,8,9,10,11,12,13,14]";
 
         final int ARRAYLIST = 1;
         final int HASHMAP = 2;
@@ -64,7 +66,9 @@ public class App
         final int DISPLAYALLELEMENTS = 6;
         final int FINDALLPLAYERS = 7;
         final int FINDPLAYERBYID = 8;
-        final int EXIT = 9;
+        final int DELETEPLAYERBYID = 9;
+        final int INSERTPLAYER = 10;
+        final int EXIT = 14;
 
         Scanner keyboard = new Scanner(System.in);
         int option = 0;
@@ -106,16 +110,24 @@ public class App
                         System.out.println("Find Player by ID option chosen");
                         findPlayerByID(IPlayerDao);
                         break;
+                    case DELETEPLAYERBYID:
+                        System.out.println("Delete Player by ID option chosen");
+                        deletePlayerByID(IPlayerDao);
+                        break;
+                    case INSERTPLAYER:
+                        System.out.println("Insert Player option chosen");
+                        insertPlayer(IPlayerDao);
+                        break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
                         break;
                     default:
-                        System.out.print("Invalid option - please enter number in range");
+                        System.out.println("Invalid option - please enter number in range");
                         break;
                 }
 
             } catch (InputMismatchException | NumberFormatException e) {
-                System.out.print("Invalid option - please enter number in range");
+                System.out.println("Invalid option - please enter number in range");
             }
         } while (option != EXIT);
 
@@ -276,13 +288,13 @@ public class App
         if( players.isEmpty() )
             System.out.println("There are no Players");
         else {
-            System.out.println("-------------------------------------------");
-            System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
-            System.out.println("-------------------------------------------");
+            System.out.println("-----------------------------------------------------");
+            System.out.printf("%-15s%-15s%-10s%-10s\n","ID", "Name", "Age", "Height");
+            System.out.println("-----------------------------------------------------");
             for (Player player : players) {
-                System.out.printf("%-15s%-10s%-10s\n", player.getName(), player.getAge(), player.getHeight());
+                System.out.printf("%-15s%-15s%-10s%-10s\n",player.getId(), player.getName(), player.getAge(), player.getHeight());
             }
-            System.out.println("-------------------------------------------");
+            System.out.println("-----------------------------------------------------");
         }
         }
         catch( DaoException e )
@@ -300,14 +312,68 @@ public class App
             Player player = IPlayerDao.findPlayerByID(id);
 
             if( player != null ) {
-                System.out.println("-------------------------------------------");
-                System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
-                System.out.println("-------------------------------------------");
-                System.out.printf("%-15s%-10s%-10s\n",player.getName(), player.getAge(), player.getHeight());
-                System.out.println("-------------------------------------------");
+                System.out.println("-----------------------------------------------------");
+                System.out.printf("%-15s%-15s%-10s%-10s\n","ID", "Name", "Age", "Height");
+                System.out.println("-----------------------------------------------------");
+                System.out.printf("%-15s%-15s%-10s%-10s\n",player.getId(), player.getName(), player.getAge(), player.getHeight());
+                System.out.println("-----------------------------------------------------");
             }
             else
                 System.out.println("ID not found");
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void deletePlayerByID(PlayerDaoInterface IPlayerDao){
+        try
+        {
+            Scanner kb = new Scanner(System.in);
+            System.out.println("Enter ID");
+            int id = kb.nextInt();
+            Player player = IPlayerDao.findPlayerByID(id);
+            if( player != null ) {
+                System.out.println("-----------------------------------------------------");
+                System.out.println("Player Deleted");
+                System.out.println("-----------------------------------------------------");
+                System.out.printf("%-15s%-15s%-10s%-10s\n","ID", "Name", "Age", "Height");
+                System.out.println("-----------------------------------------------------");
+                System.out.printf("%-15s%-15s%-10s%-10s\n",player.getId(), player.getName(), player.getAge(), player.getHeight());
+                System.out.println("-----------------------------------------------------");
+                IPlayerDao.deletePlayerByID(id);
+            }
+            else
+                System.out.println("ID not found");
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertPlayer(PlayerDaoInterface IPlayerDao){
+        try
+        {
+            Scanner kb = new Scanner(System.in);
+            System.out.println("Enter Name");
+            String name = kb.nextLine();
+            System.out.println("Enter Age");
+            int age = kb.nextInt();
+            System.out.println("Enter Height");
+            double height = kb.nextDouble();
+            Player player = IPlayerDao.insertPlayer(name, age, height);
+
+            if( player != null ) {
+                System.out.println("-----------------------------------------------------");
+                System.out.printf("%-15s%-15s%-10s%-10s\n","ID", "Name", "Age", "Height");
+                System.out.println("-----------------------------------------------------");
+                System.out.printf("%-15s%-15s%-10s%-10s\n",player.getId(), player.getName(), player.getAge(), player.getHeight());
+                System.out.println("-----------------------------------------------------");
+            }
+            else
+                System.out.println("Player not found");
         }
         catch( DaoException e )
         {

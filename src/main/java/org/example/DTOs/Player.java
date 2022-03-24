@@ -1,8 +1,11 @@
 package org.example.DTOs;
 
+import org.example.IdGenerator;
+
 import java.util.Objects;
 
 public class Player {
+    private IdGenerator idGenerator = IdGenerator.getInstance("next-id-store.txt");
     private int id;
     private String name;
     private int age;
@@ -28,11 +31,6 @@ public class Player {
     public int getId()
     {
         return id;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
     }
 
     public String getName() {
