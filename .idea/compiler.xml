@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="CA5_Project" />
+        <module name="OOP_CA5_Project" />
       </profile>
     </annotationProcessing>
   </component>

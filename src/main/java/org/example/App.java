@@ -331,7 +331,9 @@ public class App
         try
         {
             Scanner kb = new Scanner(System.in);
-            System.out.println("Enter ID");
+            findAllPlayers(IPlayerDao);
+
+            System.out.println("Enter ID to delete from this table");
             int id = kb.nextInt();
             Player player = IPlayerDao.findPlayerByID(id);
             if( player != null ) {
@@ -374,6 +376,20 @@ public class App
             }
             else
                 System.out.println("Player not found");
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+    //Test get by id method
+
+    private void findPlayerUsingFilter(PlayerDaoInterface IPlayerDao){
+        try {
+            Scanner kb = new Scanner(System.in);
+            System.out.println("Enter ID");
+            int age = kb.nextInt();
+            List<Player> players = IPlayerDao.findPlayerUsingFilter(age);
         }
         catch( DaoException e )
         {

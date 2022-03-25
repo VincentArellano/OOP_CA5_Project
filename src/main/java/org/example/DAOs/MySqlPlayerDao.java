@@ -85,12 +85,11 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next())
             {
-                int playerId = resultSet.getInt("ID");
                 String name = resultSet.getString("NAME");
                 int age = resultSet.getInt("AGE");
                 double height = resultSet.getDouble("HEIGHT");
 
-                player = new Player(playerId, name, age, height);
+                player = new Player(id, name, age, height);
             }
         } catch (SQLException e)
         {
@@ -206,5 +205,58 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             }
         }
         return player;     // reference to User object, or null value
+    }
+
+    @Override
+    public List<Player> findPlayerUsingFilter(int age) throws DaoException
+    {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        List<Player> playersList = new ArrayList<>();
+
+        try
+        {
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM PLAYER Where AGE=?";
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, age);
+            ps.executeUpdate();
+
+            resultSet = ps.executeQuery();
+            while (resultSet.next())
+            {
+                int playerId = resultSet.getInt("ID");
+                String name = resultSet.getString("NAME");
+                double height = resultSet.getDouble("HEIGHT");
+                Player p = new Player(playerId, name, age, height);
+                playersList.add(p);
+            }
+        } catch (SQLException e)
+        {
+            throw new DaoException("findAllPlayers() " + e.getMessage());
+        } finally
+        {
+            try
+            {
+                if (resultSet != null)
+                {
+                    resultSet.close();
+                }
+                if (ps != null)
+                {
+                    ps.close();
+                }
+                if (connection != null)
+                {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e)
+            {
+                throw new DaoException("findAllPlayers() " + e.getMessage());
+            }
+        }
+        return playersList;
     }
 }

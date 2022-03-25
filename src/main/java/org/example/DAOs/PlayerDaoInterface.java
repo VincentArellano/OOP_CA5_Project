@@ -15,4 +15,5 @@ public interface PlayerDaoInterface
 
     public Player insertPlayer(String name, int age, double height) throws DaoException;
 
+    public List<Player> findPlayerUsingFilter(int age) throws DaoException;
 }

@@ -1,4 +1,6 @@
-DROP TABLE IF EXISTS player;
+DROP DATABASE IF EXISTS basketball_oop_ca4;
+CREATE DATABASE basketball_oop_ca4;
+DROP DATABASE IF EXISTS player;
 
 CREATE TABLE player(id int NOT NULL AUTO_INCREMENT,
                     name VARCHAR(50),
