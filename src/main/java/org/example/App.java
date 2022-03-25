@@ -12,7 +12,7 @@ import java.util.*;
  * Hello world!
  *
  */
-public class App 
+public class App
 {
     public static void main( String[] args )
     {
@@ -55,6 +55,7 @@ public class App
                 + "8. Find Player by ID\n"
                 + "9. Delete Player by ID\n"
                 + "10. Insert Player\n"
+                + "11. Find Player Using Filter\n"
                 + "14. Exit\n"
                 + "Enter Option [1,2,3,4,5,6,7,8,9,10,11,12,13,14]";
 
@@ -68,6 +69,7 @@ public class App
         final int FINDPLAYERBYID = 8;
         final int DELETEPLAYERBYID = 9;
         final int INSERTPLAYER = 10;
+        final int FINDPLAYERUSINGFILTER = 11;
         final int EXIT = 14;
 
         Scanner keyboard = new Scanner(System.in);
@@ -117,6 +119,10 @@ public class App
                     case INSERTPLAYER:
                         System.out.println("Insert Player option chosen");
                         insertPlayer(IPlayerDao);
+                        break;
+                    case FINDPLAYERUSINGFILTER:
+                        System.out.println("Insert Player option chosen");
+                        findPlayerUsingAgeFilter(IPlayerDao);
                         break;
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
@@ -283,19 +289,19 @@ public class App
     private void findAllPlayers(PlayerDaoInterface IPlayerDao){
         try
         {
-        List<Player> players = IPlayerDao.findAllPlayers();
+            List<Player> players = IPlayerDao.findAllPlayers();
 
-        if( players.isEmpty() )
-            System.out.println("There are no Players");
-        else {
-            System.out.println("-----------------------------------------------------");
-            System.out.printf("%-15s%-15s%-10s%-10s\n","ID", "Name", "Age", "Height");
-            System.out.println("-----------------------------------------------------");
-            for (Player player : players) {
-                System.out.printf("%-15s%-15s%-10s%-10s\n",player.getId(), player.getName(), player.getAge(), player.getHeight());
+            if( players.isEmpty() )
+                System.out.println("There are no Players");
+            else {
+                System.out.println("-----------------------------------------------------");
+                System.out.printf("%-15s%-15s%-10s%-10s\n","ID", "Name", "Age", "Height");
+                System.out.println("-----------------------------------------------------");
+                for (Player player : players) {
+                    System.out.printf("%-15s%-15s%-10s%-10s\n",player.getId(), player.getName(), player.getAge(), player.getHeight());
+                }
+                System.out.println("-----------------------------------------------------");
             }
-            System.out.println("-----------------------------------------------------");
-        }
         }
         catch( DaoException e )
         {
@@ -333,7 +339,7 @@ public class App
             Scanner kb = new Scanner(System.in);
             findAllPlayers(IPlayerDao);
 
-            System.out.println("Enter ID to delete from this table");
+            System.out.println("Enter ID to delete from the table above");
             int id = kb.nextInt();
             Player player = IPlayerDao.findPlayerByID(id);
             if( player != null ) {
@@ -382,14 +388,24 @@ public class App
             e.printStackTrace();
         }
     }
-    //Test get by id method
 
-    private void findPlayerUsingFilter(PlayerDaoInterface IPlayerDao){
+    private void findPlayerUsingAgeFilter(PlayerDaoInterface IPlayerDao){
         try {
             Scanner kb = new Scanner(System.in);
-            System.out.println("Enter ID");
+            System.out.println("Enter Age");
             int age = kb.nextInt();
-            List<Player> players = IPlayerDao.findPlayerUsingFilter(age);
+            List<Player> players = IPlayerDao.findPlayerUsingAgeFilter(age);
+            if( players.isEmpty() )
+                System.out.println("There are no Players");
+            else {
+                System.out.println("-----------------------------------------------------");
+                System.out.printf("%-15s%-15s%-10s%-10s\n","ID", "Name", "Age", "Height");
+                System.out.println("-----------------------------------------------------");
+                for (Player player : players) {
+                    System.out.printf("%-15s%-15s%-10s%-10s\n",player.getId(), player.getName(), player.getAge(), player.getHeight());
+                }
+                System.out.println("-----------------------------------------------------");
+            }
         }
         catch( DaoException e )
         {
