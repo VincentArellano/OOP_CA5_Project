@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c0b4b5fd-6f91-42a5-8376-12c69ea9838d" name="Changes" comment="Features 6 - 7 finished">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_5_1_15_bin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="c0b4b5fd-6f91-42a5-8376-12c69ea9838d" name="Changes" comment="Player Table displayed before user input for deleting + find player using filter started">
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/DAOs/MySqlPlayerDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/DAOs/MySqlPlayerDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/DAOs/PlayerDaoInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/DAOs/PlayerDaoInterface.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +24,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="ProjectId" id="26TmVqTRe2kuW0zt900FkE4XueH" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,21 +40,24 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="PLAIN_TEXT" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Database 2" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vince\OneDrive - Dundalk Institute of Technology\OOP_CA5_Project\src\main\java\org\example" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\vince\OneDrive - Dundalk Institute of Technology\OOP_CA5_Project\src" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.App" />
-      <module name="CA5_Project" />
+      <module name="OOP_CA5_Project" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.*" />
+          <option name="PATTERN" value="org.example.DTOs.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -73,7 +83,13 @@
       <workItem from="1647527632534" duration="2237000" />
       <workItem from="1647817138393" duration="711000" />
       <workItem from="1647818063496" duration="17000" />
-      <workItem from="1647958173440" duration="2321000" />
+      <workItem from="1647983134483" duration="855000" />
+      <workItem from="1648059072235" duration="221000" />
+      <workItem from="1648059347330" duration="4000" />
+      <workItem from="1648059483579" duration="4522000" />
+      <workItem from="1648118687979" duration="24860000" />
+      <workItem from="1648149212663" duration="594000" />
+      <workItem from="1648207361046" duration="5155000" />
     </task>
     <task id="LOCAL-00001" summary="Features 1 - 5 updated and finished">
       <created>1647458293869</created>
@@ -89,7 +105,35 @@
       <option name="project" value="LOCAL" />
       <updated>1647463606088</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Features 7 - 8 finished">
+      <created>1648063862229</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1648063862229</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Features 7 - 8 finished and tested and mysqldump file added">
+      <created>1648126080005</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1648126080005</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Features 9 - 10 finished and tested and Id generator file added">
+      <created>1648149066026</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1648149066026</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Player Table displayed before user input for deleting + find player using filter started">
+      <created>1648212000436</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1648212000436</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -110,6 +154,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Features 1 - 5 updated and finished" />
     <MESSAGE value="Features 6 - 7 finished" />
-    <option name="LAST_COMMIT_MESSAGE" value="Features 6 - 7 finished" />
+    <MESSAGE value="Features 7 - 8 finished" />
+    <MESSAGE value="Features 7 - 8 finished and tested and mysqldump file added" />
+    <MESSAGE value="Features 9 - 10 finished and tested and Id generator file added" />
+    <MESSAGE value="Player Table displayed before user input for deleting + find player using filter started" />
+    <option name="LAST_COMMIT_MESSAGE" value="Player Table displayed before user input for deleting + find player using filter started" />
   </component>
 </project>

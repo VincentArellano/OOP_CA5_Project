@@ -208,7 +208,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public List<Player> findPlayerUsingFilter(int age) throws DaoException
+    public List<Player> findPlayerUsingAgeFilter(int age) throws DaoException
     {
         Connection connection = null;
         PreparedStatement ps = null;
@@ -219,10 +219,9 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
         {
             connection = this.getConnection();
 
-            String query = "SELECT * FROM PLAYER Where AGE=?";
+            String query = "SELECT * FROM PLAYER Where AGE=? Order By NAME";
             ps = connection.prepareStatement(query);
             ps.setInt(1, age);
-            ps.executeUpdate();
 
             resultSet = ps.executeQuery();
             while (resultSet.next())
@@ -235,7 +234,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             }
         } catch (SQLException e)
         {
-            throw new DaoException("findAllPlayers() " + e.getMessage());
+            throw new DaoException("findPlayerUsingAgeFilter() " + e.getMessage());
         } finally
         {
             try
@@ -254,7 +253,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
                 }
             } catch (SQLException e)
             {
-                throw new DaoException("findAllPlayers() " + e.getMessage());
+                throw new DaoException("findPlayerUsingAgeFilter() " + e.getMessage());
             }
         }
         return playersList;
