@@ -4,6 +4,7 @@ import org.example.DAOs.MySqlPlayerDao;
 import org.example.DAOs.PlayerDaoInterface;
 import org.example.DTOs.Player;
 import org.example.Exceptions.DaoException;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.*;
@@ -42,7 +43,7 @@ public class App
         }
     }
 
-    private void displayMainMenu(List arraylist, Map hashmap, Map treemap, Queue priorityqueue, Queue priorityqueuetwofield, PlayerDaoInterface IPlayerDao) throws IOException {
+    public void displayMainMenu(List arraylist, Map hashmap, Map treemap, Queue priorityqueue, Queue priorityqueuetwofield, PlayerDaoInterface IPlayerDao) throws IOException {
 
         final String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
                 + "1. ArrayList\n"
@@ -56,6 +57,8 @@ public class App
                 + "9. Delete Player by ID\n"
                 + "10. Insert Player\n"
                 + "11. Find Player Using Filter\n"
+                + "12. Find All Players as JSON String\n"
+                + "13. Find Player by ID as JSON String\n"
                 + "14. Exit\n"
                 + "Enter Option [1,2,3,4,5,6,7,8,9,10,11,12,13,14]";
 
@@ -70,6 +73,8 @@ public class App
         final int DELETEPLAYERBYID = 9;
         final int INSERTPLAYER = 10;
         final int FINDPLAYERUSINGFILTER = 11;
+        final int FINDALLPLAYERSASJSON = 12;
+        final int FINDPLAYERBYIDASJSON = 13;
         final int EXIT = 14;
 
         Scanner keyboard = new Scanner(System.in);
@@ -127,6 +132,14 @@ public class App
                     case EXIT:
                         System.out.println("Exit Menu option chosen");
                         break;
+                    case FINDALLPLAYERSASJSON:
+                        System.out.println("Find All Players as JSON String option chosen");
+                        findAllPlayersAsJson(IPlayerDao);
+                        break;
+                    case FINDPLAYERBYIDASJSON:
+                        System.out.println("Find Player by ID as JSON String option chosen");
+                        findPlayerByIDAsJson(IPlayerDao);
+                        break;
                     default:
                         System.out.println("Invalid option - please enter number in range");
                         break;
@@ -141,7 +154,7 @@ public class App
 
     }
 
-    private void displayArrayList(List<Player> list){
+    public void displayArrayList(List<Player> list){
         System.out.println("-------------------------------------------");
         System.out.printf("%-15s%-10s%-10s\n", "Name", "Age", "Height");
         System.out.println("-------------------------------------------");
@@ -151,7 +164,7 @@ public class App
         System.out.println("-------------------------------------------");
     }
 
-    private void displayHashMap(Map<String, ArrayList<Player>> playerTeams){
+    public void displayHashMap(Map<String, ArrayList<Player>> playerTeams){
         ArrayList<Player> player = new ArrayList<>();
         player.add(new Player("Vincent", 18, 1.9));
         player.add(new Player("Paul", 21, 2.1));
@@ -197,7 +210,7 @@ public class App
         }
     }
 
-    private void displayTreeMap(Map<Player, Jersey> list){
+    public void displayTreeMap(Map<Player, Jersey> list){
         Set<Player> keySet = list.keySet();
 
         System.out.println("-------------------------------------------------------------------------");
@@ -210,7 +223,7 @@ public class App
         System.out.println("-------------------------------------------------------------------------");
     }
 
-    private void displayPriorityQueue(Queue<Player> list){
+    public void displayPriorityQueue(Queue<Player> list){
         list.add(new Player("Stephan", 30, 1.88));
         list.add(new Player("Christian", 25, 1.7));
 
@@ -237,7 +250,7 @@ public class App
         System.out.println("-------------------------------------------");
     }
 
-    private void displayPriorityQueueTwoField(Queue<Player> queueList, List<Player> arrayList){
+    public void displayPriorityQueueTwoField(Queue<Player> queueList, List<Player> arrayList){
         for(int i=0;i<arrayList.size();i++){
             queueList.add(arrayList.get(i));
         }
@@ -253,7 +266,7 @@ public class App
         System.out.println("-------------------------------------------");
     }
 
-    private void initialiseArrayList(List<Player> list){
+    public void initialiseArrayList(List<Player> list){
         list.add(new Player("Vincent", 18, 1.9));
         list.add(new Player("Paul", 21, 2.1));
         list.add(new Player("John", 23, 2.2));
@@ -266,7 +279,7 @@ public class App
         list.add(new Player("Jack", 19, 1.92));
     }
 
-    private void initialiseTreeMap(Map<Player, Jersey> list){
+    public void initialiseTreeMap(Map<Player, Jersey> list){
         list.put(new Player("Vincent", 18, 1.9), new Jersey("XL", "Adidas", "black"));
         list.put(new Player("Paul", 21, 2.1), new Jersey("XXL", "Nike", "Red"));
         list.put(new Player("John", 23, 2.2), new Jersey("XXL", "Reebok", "Blue"));
@@ -279,14 +292,14 @@ public class App
         list.put(new Player("Jack", 19, 1.92), new Jersey("L", "Puma", "Grey"));
     }
 
-    private void display(){
+    public void display(){
         System.out.println("-------------------------------------------------------------------------");
         System.out.printf("%-15s%-10s%-10s%-10s%-20s%-20s\n", "Name", "Age", "Height", "Size", "Brand", "Colour");
         System.out.println("-------------------------------------------------------------------------");
 
     }
 
-    private void findAllPlayers(PlayerDaoInterface IPlayerDao){
+    public void findAllPlayers(PlayerDaoInterface IPlayerDao){
         try
         {
             List<Player> players = IPlayerDao.findAllPlayers();
@@ -309,7 +322,7 @@ public class App
         }
     }
 
-    private void findPlayerByID(PlayerDaoInterface IPlayerDao){
+    public void findPlayerByID(PlayerDaoInterface IPlayerDao){
         try
         {
             Scanner kb = new Scanner(System.in);
@@ -333,7 +346,7 @@ public class App
         }
     }
 
-    private void deletePlayerByID(PlayerDaoInterface IPlayerDao){
+    public void deletePlayerByID(PlayerDaoInterface IPlayerDao){
         try
         {
             Scanner kb = new Scanner(System.in);
@@ -361,7 +374,7 @@ public class App
         }
     }
 
-    private void insertPlayer(PlayerDaoInterface IPlayerDao){
+    public void insertPlayer(PlayerDaoInterface IPlayerDao){
         try
         {
             Scanner kb = new Scanner(System.in);
@@ -389,7 +402,7 @@ public class App
         }
     }
 
-    private void findPlayerUsingAgeFilter(PlayerDaoInterface IPlayerDao){
+    public void findPlayerUsingAgeFilter(PlayerDaoInterface IPlayerDao){
         try {
             Scanner kb = new Scanner(System.in);
             System.out.println("Enter Age");
@@ -406,6 +419,33 @@ public class App
                 }
                 System.out.println("-----------------------------------------------------");
             }
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void findAllPlayersAsJson(PlayerDaoInterface IPlayerDao){
+        try
+        {
+            String players = IPlayerDao.findAllPlayersJson();
+            System.out.println(players);
+        }
+        catch( DaoException e )
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void findPlayerByIDAsJson(PlayerDaoInterface IPlayerDao){
+        try
+        {
+            Scanner kb = new Scanner(System.in);
+            System.out.println("Enter ID");
+            int id = kb.nextInt();
+            String player = IPlayerDao.findPlayerByIDJson(id);
+            System.out.println(player);
         }
         catch( DaoException e )
         {
