@@ -1,5 +1,6 @@
 package org.example.DAOs;
 
+import com.google.gson.GsonBuilder;
 import org.example.DTOs.Player;
 import org.example.Exceptions.DaoException;
 import org.example.IdGenerator;
@@ -267,8 +268,8 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         List<Player> playersList = new ArrayList<>();
-        Gson gsonParser = new Gson();
-        String playerListJson = null;;
+        Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
+        String playerListJson = null;
 
         try
         {
@@ -324,7 +325,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Player player = null;
-        Gson gsonParser = new Gson();
+        Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
         String playerJson = null;
 
         try
