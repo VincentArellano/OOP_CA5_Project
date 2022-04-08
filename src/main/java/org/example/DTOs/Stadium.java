@@ -1,4 +1,6 @@
-package org.example;
+package org.example.DTOs;
+
+import org.example.LocationGPS;
 
 public class Stadium {
     private LocationGPS location;

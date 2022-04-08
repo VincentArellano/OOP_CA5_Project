@@ -1,6 +1,5 @@
 package org.example.DAOs;
 
-import com.google.gson.GsonBuilder;
 import org.example.DTOs.Player;
 import org.example.Exceptions.DaoException;
 import org.example.IdGenerator;

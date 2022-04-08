@@ -1,4 +1,4 @@
-package org.example;
+package org.example.DTOs;
 
 public class Jersey {
     private String size;
