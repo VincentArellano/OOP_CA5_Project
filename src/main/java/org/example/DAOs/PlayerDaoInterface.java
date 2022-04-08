@@ -20,4 +20,6 @@ public interface PlayerDaoInterface
     public String findAllPlayersJson() throws DaoException;
 
     public String findPlayerByIDJson(int id) throws DaoException;
+
+    public String findPlayersHigherThanAverageHeight() throws DaoException;
 }

@@ -115,9 +115,13 @@ public class Server {
                     else if(message.startsWith("4")){
                         String[] tokens = message.split(" ");
                         int id = Integer.parseInt(tokens[1]);
+
                         message = "Deleted Player "+IPlayerDao.findPlayerByIDJson(id);
                         IPlayerDao.deletePlayerByID(id);
                         socketWriter.println(message);
+                    }
+                    else if(message.equals("5")){
+                        socketWriter.println(IPlayerDao.findPlayersHigherThanAverageHeight());
                     }
                     else
                     {

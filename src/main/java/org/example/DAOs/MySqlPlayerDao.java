@@ -309,4 +309,53 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface {
         }
         return playerJson;
     }
+
+    @Override
+    public String findPlayersHigherThanAverageHeight() throws DaoException {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet resultSet = null;
+        List<Player> playersList = new ArrayList<>();
+        Gson gsonParser = new Gson();
+        //If you want to display a neat json string then uncomment the code below and comment the code above
+        //Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
+        String playerListJson = null;
+
+        try {
+            //Get connection object using the methods in the super class (MySqlDao.java)...
+            connection = this.getConnection();
+
+            String query = "SELECT * FROM player where height > (select avg(height) from player) ORDER BY height DESC;";
+            ps = connection.prepareStatement(query);
+
+            //Using a PreparedStatement to execute SQL...
+            resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                int playerId = resultSet.getInt("ID");
+                String name = resultSet.getString("NAME");
+                int age = resultSet.getInt("AGE");
+                double height = resultSet.getDouble("HEIGHT");
+                Player p = new Player(playerId, name, age, height);
+                playersList.add(p);
+            }
+            playerListJson = gsonParser.toJson(playersList);
+        } catch (SQLException e) {
+            throw new DaoException("findAllPlayersJson() " + e.getMessage());
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    freeConnection(connection);
+                }
+            } catch (SQLException e) {
+                throw new DaoException("findAllPlayersJson() " + e.getMessage());
+            }
+        }
+        return playerListJson;
+    }
 }

@@ -28,12 +28,13 @@ public class Client {
             System.out.println("Client message: The Client is running and has connected to the server");
 
             String MENU_ITEMS = "\n*** MAIN MENU OF OPTIONS ***\n"
-                    + "1. Display Entity by Id\n"
-                    + "2. Display all Entities\n"
-                    + "3. Add an Entity\n"
-                    + "4. Delete Entity by ID\n"
-                    + "5. Exit \n"
-                    + "Enter Option [1,2,3,4,5]";
+                    + "1. Display Player by Id\n"
+                    + "2. Display all Players\n"
+                    + "3. Add an Player\n"
+                    + "4. Delete Player by ID\n"
+                    + "5. Display Players Higher Than Average Height \n"
+                    + "6. Exit\n"
+                    + "Enter Option [1,2,3,4,5,6]";
             System.out.println(MENU_ITEMS);
             String command = in.nextLine();
 
@@ -47,7 +48,7 @@ public class Client {
             Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
             String playerJson = null;
 
-            while(!command.equals("5")) {
+            while(!command.equals("6")) {
                 if(command.startsWith("1")){
                     String input = socketReader.nextLine();
                     Player founderArray = gsonParser.fromJson(input, Player.class);
@@ -69,6 +70,12 @@ public class Client {
                 else if(command.startsWith("4")){
                     String input = socketReader.nextLine();
                     System.out.println("Client message: Response from server: \"" + input + "\"");
+                }
+                else if(command.equals("5")){
+                    String input = socketReader.nextLine();
+                    Player[] founderArray = gsonParser.fromJson(input, Player[].class);
+                    playerJson = gsonParser.toJson(founderArray);
+                    System.out.println("Client message: Response from server: \"" + playerJson + "\"");
                 }
                 else
                 {
