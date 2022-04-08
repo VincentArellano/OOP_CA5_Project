@@ -1,10 +1,13 @@
-package org.example;
+package org.example.BusinessObject;
 
+import org.example.ComparatorPlayerJersey;
 import org.example.DAOs.MySqlPlayerDao;
 import org.example.DAOs.PlayerDaoInterface;
 import org.example.DTOs.Player;
 import org.example.Exceptions.DaoException;
-import com.google.gson.Gson;
+import org.example.Jersey;
+import org.example.PlayerAgeComparator;
+import org.example.PlayerNameAgeComparator;
 
 import java.io.IOException;
 import java.util.*;
@@ -452,4 +455,6 @@ public class App
             e.printStackTrace();
         }
     }
+
+
 }
