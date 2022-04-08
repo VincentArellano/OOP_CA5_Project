@@ -13,18 +13,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
+public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface {
     private IdGenerator idGenerator = IdGenerator.getInstance("next-id-store.txt");
+
     @Override
-    public List<Player> findAllPlayers() throws DaoException
-    {
+    public List<Player> findAllPlayers() throws DaoException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         List<Player> playersList = new ArrayList<>();
 
-        try
-        {
+        try {
             //Get connection object using the methods in the super class (MySqlDao.java)...
             connection = this.getConnection();
 
@@ -33,8 +32,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
 
             //Using a PreparedStatement to execute SQL...
             resultSet = ps.executeQuery();
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 int playerId = resultSet.getInt("ID");
                 String name = resultSet.getString("NAME");
                 int age = resultSet.getInt("AGE");
@@ -42,27 +40,20 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
                 Player p = new Player(playerId, name, age, height);
                 playersList.add(p);
             }
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DaoException("findAllPlayers() " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (resultSet != null)
-                {
+        } finally {
+            try {
+                if (resultSet != null) {
                     resultSet.close();
                 }
-                if (ps != null)
-                {
+                if (ps != null) {
                     ps.close();
                 }
-                if (connection != null)
-                {
+                if (connection != null) {
                     freeConnection(connection);
                 }
-            } catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new DaoException("findAllPlayers() " + e.getMessage());
             }
         }
@@ -70,14 +61,12 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public Player findPlayerByID(int id) throws DaoException
-    {
+    public Player findPlayerByID(int id) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Player player = null;
-        try
-        {
+        try {
             connection = this.getConnection();
 
             String query = "SELECT * FROM PLAYER WHERE ID = ?";
@@ -85,35 +74,27 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
+            if (resultSet.next()) {
                 String name = resultSet.getString("NAME");
                 int age = resultSet.getInt("AGE");
                 double height = resultSet.getDouble("HEIGHT");
 
                 player = new Player(id, name, age, height);
             }
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DaoException("findPlayerByID() " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (resultSet != null)
-                {
+        } finally {
+            try {
+                if (resultSet != null) {
                     resultSet.close();
                 }
-                if (preparedStatement != null)
-                {
+                if (preparedStatement != null) {
                     preparedStatement.close();
                 }
-                if (connection != null)
-                {
+                if (connection != null) {
                     freeConnection(connection);
                 }
-            } catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new DaoException("findPlayerByID() " + e.getMessage());
             }
         }
@@ -121,55 +102,44 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public void deletePlayerByID(int id) throws DaoException
-    {
+    public void deletePlayerByID(int id) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        try
-        {
+        try {
             connection = this.getConnection();
 
             String query = "delete from Player where id = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DaoException("deletePlayerByID() " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (resultSet != null)
-                {
+        } finally {
+            try {
+                if (resultSet != null) {
                     resultSet.close();
                 }
-                if (preparedStatement != null)
-                {
+                if (preparedStatement != null) {
                     preparedStatement.close();
                 }
-                if (connection != null)
-                {
+                if (connection != null) {
                     freeConnection(connection);
                 }
-            } catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new DaoException("deletePlayerByID() " + e.getMessage());
             }
         }
     }
 
     @Override
-    public Player insertPlayer(String name, int age, double height) throws DaoException
-    {
+    public Player insertPlayer(String name, int age, double height) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Player player = null;
         int id = idGenerator.getNextId();
-        try
-        {
+        try {
             connection = this.getConnection();
 
             String query = "insert into basketball_oop_CA4.Player values (?, ?, ?, ?)";
@@ -181,28 +151,21 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             preparedStatement.setDouble(4, height);
             preparedStatement.executeUpdate();
 
-            player = new Player(id,name, age, height);
-        } catch (SQLException e)
-        {
+            player = new Player(id, name, age, height);
+        } catch (SQLException e) {
             throw new DaoException("insertPlayer() " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (resultSet != null)
-                {
+        } finally {
+            try {
+                if (resultSet != null) {
                     resultSet.close();
                 }
-                if (preparedStatement != null)
-                {
+                if (preparedStatement != null) {
                     preparedStatement.close();
                 }
-                if (connection != null)
-                {
+                if (connection != null) {
                     freeConnection(connection);
                 }
-            } catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new DaoException("insertPlayer() " + e.getMessage());
             }
         }
@@ -210,15 +173,13 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public List<Player> findPlayerUsingAgeFilter(int age) throws DaoException
-    {
+    public List<Player> findPlayerUsingAgeFilter(int age) throws DaoException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         List<Player> playersList = new ArrayList<>();
 
-        try
-        {
+        try {
             connection = this.getConnection();
 
             String query = "SELECT * FROM PLAYER Where AGE=? Order By NAME";
@@ -226,35 +187,27 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             ps.setInt(1, age);
 
             resultSet = ps.executeQuery();
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 int playerId = resultSet.getInt("ID");
                 String name = resultSet.getString("NAME");
                 double height = resultSet.getDouble("HEIGHT");
                 Player p = new Player(playerId, name, age, height);
                 playersList.add(p);
             }
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DaoException("findPlayerUsingAgeFilter() " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (resultSet != null)
-                {
+        } finally {
+            try {
+                if (resultSet != null) {
                     resultSet.close();
                 }
-                if (ps != null)
-                {
+                if (ps != null) {
                     ps.close();
                 }
-                if (connection != null)
-                {
+                if (connection != null) {
                     freeConnection(connection);
                 }
-            } catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new DaoException("findPlayerUsingAgeFilter() " + e.getMessage());
             }
         }
@@ -262,17 +215,17 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public String findAllPlayersJson() throws DaoException
-    {
+    public String findAllPlayersJson() throws DaoException {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         List<Player> playersList = new ArrayList<>();
-        Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
+        Gson gsonParser = new Gson();
+        //If you want to display a neat json string then uncomment the code below and comment the code above
+        //Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
         String playerListJson = null;
 
-        try
-        {
+        try {
             //Get connection object using the methods in the super class (MySqlDao.java)...
             connection = this.getConnection();
 
@@ -281,8 +234,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
 
             //Using a PreparedStatement to execute SQL...
             resultSet = ps.executeQuery();
-            while (resultSet.next())
-            {
+            while (resultSet.next()) {
                 int playerId = resultSet.getInt("ID");
                 String name = resultSet.getString("NAME");
                 int age = resultSet.getInt("AGE");
@@ -291,27 +243,20 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
                 playersList.add(p);
             }
             playerListJson = gsonParser.toJson(playersList);
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DaoException("findAllPlayersJson() " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (resultSet != null)
-                {
+        } finally {
+            try {
+                if (resultSet != null) {
                     resultSet.close();
                 }
-                if (ps != null)
-                {
+                if (ps != null) {
                     ps.close();
                 }
-                if (connection != null)
-                {
+                if (connection != null) {
                     freeConnection(connection);
                 }
-            } catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new DaoException("findAllPlayersJson() " + e.getMessage());
             }
         }
@@ -319,17 +264,17 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
     }
 
     @Override
-    public String findPlayerByIDJson(int id) throws DaoException
-    {
+    public String findPlayerByIDJson(int id) throws DaoException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Player player = null;
-        Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
+        Gson gsonParser = new Gson();
+        //If you want to display a neat json string then uncomment the code below and comment the code above
+        //Gson gsonParser = new GsonBuilder().setPrettyPrinting().create();
         String playerJson = null;
 
-        try
-        {
+        try {
             connection = this.getConnection();
 
             String query = "SELECT * FROM PLAYER WHERE ID = ?";
@@ -337,8 +282,7 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
             preparedStatement.setInt(1, id);
 
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next())
-            {
+            if (resultSet.next()) {
                 String name = resultSet.getString("NAME");
                 int age = resultSet.getInt("AGE");
                 double height = resultSet.getDouble("HEIGHT");
@@ -346,27 +290,20 @@ public class MySqlPlayerDao  extends MySqlDao implements PlayerDaoInterface{
                 player = new Player(id, name, age, height);
                 playerJson = gsonParser.toJson(player);
             }
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new DaoException("findPlayerByIDJson() " + e.getMessage());
-        } finally
-        {
-            try
-            {
-                if (resultSet != null)
-                {
+        } finally {
+            try {
+                if (resultSet != null) {
                     resultSet.close();
                 }
-                if (preparedStatement != null)
-                {
+                if (preparedStatement != null) {
                     preparedStatement.close();
                 }
-                if (connection != null)
-                {
+                if (connection != null) {
                     freeConnection(connection);
                 }
-            } catch (SQLException e)
-            {
+            } catch (SQLException e) {
                 throw new DaoException("findPlayerByIDJson() " + e.getMessage());
             }
         }
